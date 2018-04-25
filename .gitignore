@@ -1,6 +1,8 @@
+.ignore
 demo.ipynb
 mask_rcnn_coco.h5
 
+.idea/
 images/
 samples/
 
