@@ -16,7 +16,7 @@ import mrcnn.visualize as visualize
 from mrcnn.model import log
 from keras.utils import plot_model
 
-import mirror
+import drone
 
 # Root directory of the project
 ROOT_DIR = os.getcwd()
@@ -30,7 +30,7 @@ COCO_MODEL_PATH = os.path.join(ROOT_DIR, "mask_rcnn_coco.h5")
 if not os.path.exists(COCO_MODEL_PATH):
     utils.download_trained_weights(COCO_MODEL_PATH)
     
-config = mirror.MirrorConfig()
+config = drone.MirrorConfig()
 config.display()
 
 iter_num = 0
@@ -44,12 +44,12 @@ count = len(imglist)
 print(count)
 
 # Training dataset
-dataset_train = mirror.MirrorDataset()
+dataset_train = drone.MirrorDataset()
 dataset_train.load_shapes(count, 200, 300, img_folder, mask_folder, imglist, dataset_root_path)
 dataset_train.prepare()
 
 # Validation dataset
-dataset_val = mirror.MirrorDataset()
+dataset_val = drone.MirrorDataset()
 dataset_val.load_shapes(count, 200, 300, img_folder, mask_folder, imglist, dataset_root_path)
 dataset_val.prepare()
 

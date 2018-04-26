@@ -12,10 +12,10 @@ import skimage.io
 import matplotlib
 import matplotlib.pyplot as plt
 
-import utils
-import model as modellib
-import visualize
-from config import Config
+import mrcnn.utils
+import mrcnn.model as modellib
+import mrcnn.visualize as visualize
+from mrcnn.config import Config
 
 # Root directory of the project
 ROOT_DIR = os.getcwd()

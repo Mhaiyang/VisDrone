@@ -6,13 +6,13 @@ import yaml
 
 
 ### Configurations
-class MirrorConfig(Config):
+class DroneConfig(Config):
     """Configuration for training on the mirror dataset.
     Derives from the base Config class and overrides values specific
     to the mirror dataset.
     """
     # Give the configuration a recognizable name
-    NAME = "mirror"
+    NAME = "VisDrone"
 
     # Train on 1 GPU and 8 images per GPU. We can put multiple images on each
     # GPU because the images are small. Batch size is 8 (GPUs * images/GPU).
@@ -20,7 +20,7 @@ class MirrorConfig(Config):
     IMAGES_PER_GPU = 1
 
     # Number of classes (including background)
-    NUM_CLASSES = 1 + 1  # background + 1 mirror
+    NUM_CLASSES = 1 + 10  # background + 10 category
 
     # Use small images for faster training. Set the limits of the small side
     # the large side, and that determines the image shape.
@@ -47,7 +47,7 @@ class MirrorConfig(Config):
 
 
 ### Dataset
-class MirrorDataset(utils.Dataset):
+class DroneDataset(utils.Dataset):
 
     def get_obj_index(self, image):
         """Get the number of instance in the image
@@ -75,10 +75,18 @@ class MirrorDataset(utils.Dataset):
                         mask[j, i, index] = 1
         return mask
 
-    def load_shapes(self, count, height, width, img_folder, mask_folder,
+    def load_VisDrone(self, count, height, width, img_folder, mask_folder,
                     imglist, dataset_root_path):
-        self.add_class("shapes", 1, "mirror")
-        # self.add_class("shapes", 2, "reflection")
+        self.add_class("VisDrone", 1, "pedestrian")
+        self.add_class("VisDrone", 2, "person")
+        self.add_class("VisDrone", 3, "car")
+        self.add_class("VisDrone", 4, "van")
+        self.add_class("VisDrone", 5, "bus")
+        self.add_class("VisDrone", 6, "truck")
+        self.add_class("VisDrone", 7, "motor")
+        self.add_class("VisDrone", 8, "bicycle")
+        self.add_class("VisDrone", 9, "awning-tricycle")
+        self.add_class("VisDrone", 10, "tricycle")
         for i in range(count):
             filestr = imglist[i].split(".")[0]
             # filestr = filestr.split("_")[1]
