@@ -250,7 +250,8 @@ class Dataset(object):
         self._image_ids = []
         self.image_info = []
         # Background is always the first class
-        self.class_info = [{"source": "", "id": 0, "name": "BG"}]
+        self.class_info = [{"source": "", "id": 0 , "name": "ignored_regions"}]
+        self.class_info.append({"source": "", "id": 11, "name": "others"})
         self.source_class_ids = {}
 
     def add_class(self, source, class_id, class_name):
@@ -269,8 +270,8 @@ class Dataset(object):
 
     def add_image(self, source, image_id, path, **kwargs):
         image_info = {
-            "id": image_id,
             "source": source,
+            "id": image_id,
             "path": path,
         }
         image_info.update(kwargs)
@@ -294,11 +295,12 @@ class Dataset(object):
 
         def clean_name(name):
             """Returns a shorter version of object names for cleaner display."""
-            return ",".join(name.split(",")[:1])
+            return ",".join(name[:5])
+            # return ",".join(name.split(",")[:1])
 
         # Build (or rebuild) everything else from the info dicts.
         self.num_classes = len(self.class_info)
-        self.class_ids = np.arange(self.num_classes)
+        self.class_ids = np.arange(self.num_classes)  # 0 -- 11 for VisDrone
         self.class_names = [clean_name(c["name"]) for c in self.class_info]
         self.num_images = len(self.image_info)
         self._image_ids = np.arange(self.num_images)

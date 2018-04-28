@@ -33,7 +33,7 @@ from mrcnn import utils
 #  Visualization
 ############################################################
 
-def display_images(images, titles=None, cols=4, cmap=None, norm=None,
+def display_images(images, titles=None, cols=2, cmap=None, norm=None,
                    interpolation=None):
     """Display the given set of images, optionally with titles.
     images: list or array of image tensors in HWC format.
@@ -45,7 +45,7 @@ def display_images(images, titles=None, cols=4, cmap=None, norm=None,
     """
     titles = titles if titles is not None else [""] * len(images)
     rows = len(images) // cols + 1
-    plt.figure(figsize=(14, 14 * rows // cols))
+    plt.figure(figsize=(100, 100 * rows // cols))
     i = 1
     for image, title in zip(images, titles):
         plt.subplot(rows, cols, i)
@@ -501,3 +501,21 @@ def display_weight_stats(model):
                 "{:+9.4f}".format(w.std()),
             ])
     display_table(table)
+
+
+# TaylorMei
+def draw_bbx(image, label, count, colors=None):
+    """Implemented by TaylorMei
+    3 pixel-width bounding box
+    """
+    colors = colors or random_colors(count)
+    for i in range(count):
+        (r, g, b) = colors[i][0]*255, colors[i][1]*255, colors[i][2]*255
+        x1, y1, x2, y2 = int(label[i][0]), int(label[i][1]), int(label[i][0])+int(label[i][2]), int(label[i][1])+int(label[i][3])
+        print("(",r, g, b,")", "(",x1, y1,")---->", "(",x2, y2,")")
+        image[y1:y1 + 4, x1:x2] = (r, g, b)
+        image[y2:y2 + 4, x1:x2] = (r, g, b)
+        image[y1:y2, x1:x1 + 4] = (r, g, b)
+        image[y1:y2, x2:x2 + 4] = (r, g, b)
+        print(image.shape[0], image.shape[1], image.shape[2])
+    return image
