@@ -1201,13 +1201,11 @@ def load_image_gt(dataset, config, image_id, augment=False, augmentation=None,
     shape: the original shape of the image before resizing and cropping.
     class_ids: [instance_count] Integer class IDs
     bbox: [instance_count, (y1, x1, y2, x2)]
-    mask: [height, width, instance_count]. The height and width are those
-        of the image unless use_mini_mask is True, in which case they are
-        defined in MINI_MASK_SHAPE.
     """
     # Load image and mask
     image = dataset.load_image(image_id)
-    mask, class_ids = dataset.load_mask(image_id)
+    # mask, class_ids = dataset.load_mask(image_id)
+    label, count = dataset.load_anno(image_id)
     original_shape = image.shape
     image, window, scale, padding, crop = utils.resize_image(
         image,
@@ -1215,7 +1213,7 @@ def load_image_gt(dataset, config, image_id, augment=False, augmentation=None,
         min_scale=config.IMAGE_MIN_SCALE,
         max_dim=config.IMAGE_MAX_DIM,
         mode=config.IMAGE_RESIZE_MODE)
-    mask = utils.resize_mask(mask, scale, padding, crop)
+    # mask = utils.resize_mask(mask, scale, padding, crop)
 
     # Random horizontal flips.
     # TODO: will be removed in a future update in favor of augmentation
@@ -1258,13 +1256,21 @@ def load_image_gt(dataset, config, image_id, augment=False, augmentation=None,
 
     # Note that some boxes might be all zeros if the corresponding mask got cropped out.
     # and here is to filter them out
-    _idx = np.sum(mask, axis=(0, 1)) > 0
-    mask = mask[:, :, _idx]
-    class_ids = class_ids[_idx]
-    # Bounding boxes. Note that some boxes might be all zeros
-    # if the corresponding mask got cropped out.
+    # TaylorMei do not need this code.
+    # _idx = np.sum(mask, axis=(0, 1)) > 0
+    # mask = mask[:, :, _idx]
+    # class_ids = class_ids[_idx]
+    # bbox = utils.extract_bboxes(mask)
+
+    # TaylorMei
     # bbox: [num_instances, (y1, x1, y2, x2)]
-    bbox = utils.extract_bboxes(mask)
+    class_ids = []
+    bbox = []
+    for i in range(count):
+        class_ids.append(int(label[i][5]))
+        y1, x1, y2, x2 = int(label[i][1]), int(label[i][0]), int(label[i][1]+label[i][3]), int(label[i][0]+label[i][2])
+        y_1, x_1, y_2,x_2 = round((y1-1)*scale+1), round((x1-1)*scale+1), round((y2-1)*scale+1), round((x2-1)*scale+1)
+        bbox.append((y_1, x_1, y_2, x_2))
 
     # Active classes
     # Different datasets have different classes, so track the
@@ -1273,15 +1279,11 @@ def load_image_gt(dataset, config, image_id, augment=False, augmentation=None,
     source_class_ids = dataset.source_class_ids[dataset.image_info[image_id]["source"]]
     active_class_ids[source_class_ids] = 1
 
-    # Resize masks to smaller size to reduce memory usage
-    if use_mini_mask:
-        mask = utils.minimize_mask(bbox, mask, config.MINI_MASK_SHAPE)
-
     # Image meta data
     image_meta = compose_image_meta(image_id, original_shape, image.shape,
                                     window, scale, active_class_ids)
 
-    return image, image_meta, class_ids, bbox, mask
+    return image, image_meta, class_ids, bbox
 
 
 def build_detection_targets(rpn_rois, gt_class_ids, gt_boxes, gt_masks, config):

@@ -22,8 +22,22 @@ class VisDroneConfig(Config):
 
     # Use small images for faster training. Set the limits of the small side
     # the large side, and that determines the image shape.
-    IMAGE_MIN_DIM = 800
-    IMAGE_MAX_DIM = 1024
+    IMAGE_RESIZE_MODE = "square"
+    # options:
+    # none:   No resizing or padding. Return the image unchanged.
+    # square: Resize and pad with zeros to get a square image
+    #         of size [max_dim, max_dim].
+    # pad64:  Pads width and height with zeros to make them multiples of 64.
+    #         If IMAGE_MIN_DIM or IMAGE_MIN_SCALE are not None, then it scales
+    #         up before padding. IMAGE_MAX_DIM is ignored in this mode.
+    #         The multiple of 64 is needed to ensure smooth scaling of feature
+    #         maps up and down the 6 levels of the FPN pyramid (2**6=64).
+    # crop:   Picks random crops from the image. First, scales the image based
+    #         on IMAGE_MIN_DIM and IMAGE_MIN_SCALE, then picks a random crop of
+    #         size IMAGE_MIN_DIM x IMAGE_MIN_DIM. Can be used in training only.
+    #         IMAGE_MAX_DIM is not used in this mode.
+    IMAGE_MIN_DIM = 1600
+    IMAGE_MAX_DIM = 2560 # in square mode, return an image of 2560*2560.
 
     # Use smaller anchors because our image and objects are small
     # Actually scale is square root of RPN's area
