@@ -1267,7 +1267,7 @@ def load_image_gt(dataset, config, image_id, augment=False, augmentation=None,
     class_ids = np.zeros([count], dtype=np.int32)
     bbox = np.zeros([count, 4], dtype=np.int32)
     for i in range(count):
-        class_ids[i] = int(label[i][5])
+        class_ids[i] = np.array([label[i][5]])
         y1, x1, y2, x2 = int(label[i][1]), int(label[i][0]), int(label[i][1]+label[i][3]), int(label[i][0]+label[i][2])
         y_1, x_1, y_2,x_2 = round((y1-1)*scale+1), round((x1-1)*scale+1), round((y2-1)*scale+1), round((x2-1)*scale+1)
         bbox[i] = np.array([y_1, x_1, y_2, x_2])
