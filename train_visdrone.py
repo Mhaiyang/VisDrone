@@ -57,15 +57,15 @@ dataset_val.load_VisDrone(val_count, val_images_folder, val_imglist, val_folder)
 dataset_val.prepare()
 
 # Load and display random samples
-image_ids = np.random.choice(dataset_train.image_ids, 4)
-images = []
-images_bbx = []
-for image_id in image_ids:
-    image = dataset_train.load_image(image_id)
-    label, count = dataset_train.load_anno(image_id)
-    images.append(image)
-    images_bbx.append(visualize.draw_bbx(image, label, count))
-visualize.display_images(images_bbx)
+# image_ids = np.random.choice(dataset_train.image_ids, 4)
+# images = []
+# images_bbx = []
+# for image_id in image_ids:
+#     image = dataset_train.load_image(image_id)
+#     label, count = dataset_train.load_anno(image_id)
+#     images.append(image)
+#     images_bbx.append(visualize.draw_bbx(image, label, count))
+# visualize.display_images(images_bbx)
 
 
 ### Create Model  ###
