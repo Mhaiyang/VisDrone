@@ -41,7 +41,7 @@ class VisDroneConfig(Config):
 
     # Use smaller anchors because our image and objects are small
     # Actually scale is square root of RPN's area
-    RPN_ANCHOR_SCALES = (16, 32, 64, 128, 256)  # anchor side in pixels
+    RPN_ANCHOR_SCALES = (16, 32, 64, 128, 256, 512)  # anchor side in pixels
 
     # Reduce training ROIs per image because the images are small and have
     # few objects. Aim to allow ROI sampling to pick 33% positive ROIs.
