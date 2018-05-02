@@ -9,6 +9,9 @@ python3.5
 
 `sudo pip3 install -r requirments.txt`
 
+## Usage
+`python train_visdrone.py`
+
 ## TODO
 - [x] Reading data and label using member function.(VisDroneDataset.load_VisDrone() and VisDroneDataset.load_anno().)
 - [x] Writing configuration function.(VidDroneConfig, which is inheriting from class Config.)
