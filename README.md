@@ -5,7 +5,7 @@
 ![detection](assets/detection.jpg)
 
 ## Environment
-python3.5
+python3.5  tensorflow1.8.0  keras2.1.6
 
 `sudo pip3 install -r requirments.txt`
 
