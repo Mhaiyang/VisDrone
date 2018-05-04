@@ -1269,8 +1269,10 @@ def load_image_gt(dataset, config, image_id, augment=False, augmentation=None,
     for i in range(count):
         class_ids[i] = np.array([label[i][5]])
         y1, x1, y2, x2 = int(label[i][1]), int(label[i][0]), int(label[i][1]+label[i][3]), int(label[i][0]+label[i][2])
-        y_1, x_1, y_2,x_2 = round((y1-1)*scale+1), round((x1-1)*scale+1), round((y2-1)*scale+1), round((x2-1)*scale+1)
-        bbox[i] = np.array([y_1, x_1, y_2, x_2])
+        y1_large, x1_large, y2_large, x2_large = round((y1-1)*scale+1), round((x1-1)*scale+1), round((y2-1)*scale+1), round((x2-1)*scale+1)
+        y1_square, x1_square, y2_square, x2_square = y1_large+padding[0][0], x1_large+padding[1][0],\
+                                                     y2_large+padding[0][0], x2_large+padding[1][0]
+        bbox[i] = np.array([y1_square, x1_square, y2_square, x2_square])
 
     # Active classes
     # Different datasets have different classes, so track the
@@ -1674,6 +1676,7 @@ def data_generator(dataset, config, shuffle=True, augment=False, augmentation=No
 
     # Anchors
     # [anchor_count, (y1, x1, y2, x2)]
+    # The size of each anchor is based on the original images.
     backbone_shapes = compute_backbone_shapes(config, config.IMAGE_SHAPE)
     anchors = utils.generate_pyramid_anchors(config.RPN_ANCHOR_SCALES,
                                              config.RPN_ANCHOR_RATIOS,

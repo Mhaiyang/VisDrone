@@ -641,6 +641,7 @@ def generate_pyramid_anchors(scales, ratios, feature_shapes, feature_strides,
     # [anchor_count, (y1, x1, y2, x2)]
     anchors = []
     for i in range(len(scales)):
+        # print("scales[{}] = {}  feature_shapes[{}] = {} feature_strides[{}] = {}".format(i, scales[i], i, feature_shapes[i], i, feature_strides[i]))
         anchors.append(generate_anchors(scales[i], ratios, feature_shapes[i],
                                         feature_strides[i], anchor_stride))
     return np.concatenate(anchors, axis=0)

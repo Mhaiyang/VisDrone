@@ -39,9 +39,10 @@ class VisDroneConfig(Config):
     IMAGE_MIN_DIM = 1600
     IMAGE_MAX_DIM = 2560 # in square mode, return an image of 2560*2560.
 
-    # Use smaller anchors because our image and objects are small
-    # Actually scale is square root of RPN's area
-    RPN_ANCHOR_SCALES = (16, 32, 64, 128, 256, 512)  # anchor side in pixels
+    BACKBONE_STRIDES = [4, 8, 16, 32, 64, 128]
+    # RPN_ANCHOR_SCALES = (8, 16, 32, 64, 128, 256)  # anchor side in pixels
+    RPN_ANCHOR_SCALES = (256, 128, 64, 32, 16, 8)
+    RPN_ANCHOR_RATIOS = [0.5, 1, 2]
 
     # Reduce training ROIs per image because the images are small and have
     # few objects. Aim to allow ROI sampling to pick 33% positive ROIs.
