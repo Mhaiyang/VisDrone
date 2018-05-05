@@ -14,7 +14,7 @@ class VisDroneConfig(Config):
 
     # Train on 1 GPU and 8 images per GPU. We can put multiple images on each
     # GPU because the images are small. Batch size is 8 (GPUs * images/GPU).
-    GPU_COUNT = 2
+    GPU_COUNT = 1
     IMAGES_PER_GPU = 1
 
     # Number of classes (including background)

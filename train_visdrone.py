@@ -1,4 +1,4 @@
-# # Mask R-CNN - Train on Mirror Dataset
+# # Mask R-CNN - Train on VisDrone Dataset
 import os
 import sys
 import random
