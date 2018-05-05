@@ -17,7 +17,7 @@ python3.5  tensorflow1.8.0  keras2.1.6
 - [x] Writing configuration function.(VidDroneConfig, which is inheriting from class Config.)
 - [x] Inspecting data.(load and display random 4 samples.)
 - [x] Training network using the modified mask-rcnn algorithm based on VisDrone task.(train_visdrone.py)
-- [ ] Using Tensorboard to keep watch on training.
+- [x] Using Tensorboard to keep watch on training.
 - [ ] Test and submit results to leaderboard
 - [ ] Re-design the architecture of our network.
 
